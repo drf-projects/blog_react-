@@ -65,8 +65,8 @@ class Category(models.Model):
     def __str__(self):
         return self.title
     
-    # class Meta:
-    #     verbose_name_plural='Category'
+    class Meta:
+        verbose_name_plural='Category'
         
     def save(self,*args,**kwargs):
         if self.slug=="" or self.slug==None:
@@ -86,7 +86,7 @@ class Post(models.Model):
     
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     profile=models.ForeignKey(Profile,on_delete=models.CASCADE,null=True,blank=True)
-    category=models.ForeignKey(Category,on_delete=models.CASCADE,null=True,blank=True)
+    category=models.ForeignKey(Category,on_delete=models.CASCADE,null=True,blank=True,related_name='posts')
     title=models.CharField(max_length=100)
     description=models.TextField(null=True,blank=True)
     image=models.FileField(upload_to='image',null=True,blank=True)
