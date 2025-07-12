@@ -2,10 +2,27 @@ import React, { useState } from "react";
 import Header from "../partials/Header";
 import Footer from "../partials/Footer";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/auth";
+import register from  '../../utils/auth';
 
 
 function Register() {
-  
+  const [bioData,setBioData] = useState({full_name:"",email:"",password:"",password2:''});
+  const [isLoading,setIsLoading] = useState(false)
+  const navigate=useNavigate();
+
+  const handleBioDataChange = (event)=>{
+    setBioData({
+        ...bioData,
+        [event.target.name]:event.target.value,
+    })
+  }
+  const handleRegister  = (async = (e)=>{
+    e.preventDefault();
+    setIsLoading(true);
+
+    const {error} = register()
+  })
     return (
         <>
             <Header />

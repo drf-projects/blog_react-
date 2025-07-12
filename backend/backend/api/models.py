@@ -88,6 +88,7 @@ class Post(models.Model):
     profile=models.ForeignKey(Profile,on_delete=models.CASCADE,null=True,blank=True)
     category=models.ForeignKey(Category,on_delete=models.CASCADE,null=True,blank=True,related_name='posts')
     title=models.CharField(max_length=100)
+    tag=models.CharField(max_length=100,null=True,blank=True)
     description=models.TextField(null=True,blank=True)
     image=models.FileField(upload_to='image',null=True,blank=True)
     status=models.CharField(choices=STATUS,max_length=100,default='Active')
@@ -107,6 +108,9 @@ class Post(models.Model):
         if self.slug=="" or self.slug==None:
             self.slug=slugify(self.title) + "-" + shortuuid.uuid()[:2]
         super(Post,self).save(*args,**kwargs)
+    
+    def comments(self):
+        return Comment.objects.filter(post=self)
 
 class Comment(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
@@ -114,7 +118,7 @@ class Comment(models.Model):
     email=models.CharField(max_length=100)
     comment=models.TextField(null=True,blank=True)
     reply=models.TextField(null=True,blank=True)
-    
+    date = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.post.title
     

@@ -148,7 +148,8 @@ class PostCommentAPIView(APIView):
             post=post,
             type='Comment'
         )
-        
+        return Response({"message": "Comment posted successfully"}, status=status.HTTP_201_CREATED)
+
 class BookmarkPostAPIView(APIView):
     @swagger_auto_schema(
         request_body=openapi.Schema(
@@ -170,7 +171,7 @@ class BookmarkPostAPIView(APIView):
         
         if bookmark:
             bookmark.delete()
-            return Response({'message':'Post Un-Bookmarked'},status=status.HTTP_200_Ok)
+            return Response({'message':'Post Un-Bookmarked'},status=status.HTTP_200_OK)
         else:
             api_models.Bookmark.objects.create(
                 user=user,
